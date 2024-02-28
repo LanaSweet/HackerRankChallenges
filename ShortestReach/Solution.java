@@ -26,30 +26,24 @@ class Result {
     public static List<Integer> bfs(int n, int m, List<List<Integer>> edges, int s) {
         Map<Integer,List<Integer>> edgesMapped = getEdgesMapped(edges);
 
-        System.out.println(edgesMapped);
-        boolean[] visited = new boolean[n];
-        Queue<Integer> nodes = new LinkedList<>();
+        Queue<Integer> nodesToVisit = new LinkedList<>();
         int[] distances = new int[n];
         Arrays.fill(distances, Integer.MAX_VALUE);
-
-        nodes.add(s-1);
+        boolean[] visited = new boolean[n];
+        nodesToVisit.add(s-1);
         distances[s-1] =0;
-        int totalDistance = 0;
-        while(!nodes.isEmpty()){
-            int cur = nodes.remove();
-
+        while(!nodesToVisit.isEmpty()){
+            int cur = nodesToVisit.remove();
             List<Integer> connectedWithCur = edgesMapped.get(cur);
             if(connectedWithCur!=null){
                 for(Integer node: connectedWithCur){
                     if(!visited[node] && (distances[cur] + 6) <distances[node]){
                         distances[node] =distances[cur] + 6;
-                        nodes.add(node);
+                        nodesToVisit.add(node);
                     }
                 }                 
             }
-            totalDistance = totalDistance +6;
             visited[cur]= true;
-
         }
         List<Integer> res = new ArrayList<>();
         for(int i=0; i<n;i++){
